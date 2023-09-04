@@ -76,13 +76,13 @@ jobs:
         run: |
           .pipelines\verifyPossibleAssetConflicts.ps1 $(BuildPlatform)\$(BuildConfiguration)\WinUI3Apps
       
-      - name: MS Tests
+      - name: MS Test
         run: |
           vstest.console.exe **\UnitTests-GcodeThumbnailProvider.dll **\UnitTests-StlThumbnailProvider.dll **\UnitTests-PdfThumbnailProvider.dll **\Settings.UI.UnitTests.dll **\UnitTests-GcodePreviewHandler.dll **\UnitTests-PdfPreviewHandler.dll **\UnitTests-PreviewHandlerCommon.dll **\Microsoft.PowerToys.Run.Plugin.Registry.UnitTests.dll **\UnitTest-ColorPickerUI.dll **\Microsoft.Interop.Tests.dll **\ImageResizer.Test.dll **\Community.PowerToys.Run.Plugin.UnitConverter.UnitTest.dll **\Community.PowerToys.Run.Plugin.ValueGenerator.UnitTests.dll **\Microsoft.Plugin.Folder.UnitTests.dll **\Microsoft.Plugin.Program.UnitTests.dll **\Microsoft.PowerToys.Run.Plugin.Calculator.UnitTest.dll **\Microsoft.Plugin.Uri.UnitTests.dll **\Wox.Test.dll **\Microsoft.PowerToys.Run.Plugin.System.UnitTests.dll **\Microsoft.PowerToys.Run.Plugin.TimeDate.UnitTests.dll **\Microsoft.Plugin.WindowsTerminal.UnitTests.dll **\Microsoft.Plugin.WindowWalker.UnitTests.dll **\PreviewPaneUnitTests.dll **\UnitTests-SvgThumbnailProvider.dll **\UnitTests-SvgPreviewHandler.dll **\PowerToys.Hosts.Tests.dll **\MouseJumpUI.UnitTests.dll --noresults --logger:trx --framework:.NETCoreApp,Version=v5.0
         env:
           BuildPlatform: 'x64'
       
-      - name: Native Tests
+      - name: Native Test
         run: |
           vstest.console.exe **\KeyboardManagerEngineTest.dll **\KeyboardManagerEditorTest.dll **\UnitTests-CommonLib.dll **\PowerRenameUnitTests.dll **\powerpreviewTest.dll **\UnitTests-FancyZones.dll --noresults --logger:trx --framework:.NETCoreApp,Version=v5.0
         env:
