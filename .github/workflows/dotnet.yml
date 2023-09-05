@@ -1,4 +1,4 @@
-name: Simplified .NET Core Workflow
+name: Johnny .NET Core Workflow
 
 on:
   push:
