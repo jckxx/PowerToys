@@ -19,7 +19,7 @@ jobs:
         dotnet-version: '6.0.x'
 
     - name: List files in the repository
-      run: ls -la
+      run: Get-ChildItem -Recurse
 
     - name: Display environment information
       run: echo "Running on ${{ runner.os }} with .NET version ${{ steps.setup-dotnet.outputs.dotnet-version }}"
