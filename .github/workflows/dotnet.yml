@@ -25,7 +25,7 @@ jobs:
       run: dotnet tool install --global dotnet-format
 
     - name: Run .NET Format (Linting)
-      run: dotnet format --check
+      run: dotnet format "./PowerToys.sln" --check
 
     - name: Install .NET Analyzers
       run: dotnet new globaljson --sdk-version 6.0.100 && dotnet new tool-manifest && dotnet tool install dotnet-analyzers
