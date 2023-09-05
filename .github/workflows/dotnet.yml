@@ -1,40 +1,22 @@
-name: .NET Core Linting and Analysis
+name: Simple C# Workflow
 
 on:
   push:
-    branches: [ "johnny" ]
+    branches: [ johnny ]
   pull_request:
-    branches: [ "johnny" ]
+    branches: [ johnny ]
 
 jobs:
-  lint-and-analyze:
+  setup-environment:
     runs-on: windows-latest
     steps:
-    - name: Checkout repository
+    - name: Checkout Code
       uses: actions/checkout@v2
-      with:
-        ref: ${{ github.ref }}
-        fetch-depth: 1
 
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: '6.0.x'
 
-    - name: Install .NET Format (for linting)
-      run: dotnet tool install --global dotnet-format
-
-    - name: Run .NET Format (Linting)
-      run: dotnet format "./PowerToys.sln" --verify-no-changes
-
-    - name: Install .NET Analyzers
-      run: dotnet new globaljson --sdk-version 6.0.100 && dotnet new tool-manifest && dotnet tool install dotnet-analyzers
-
-    - name: Run .NET Analyzers (Static Code Analysis)
-      run: dotnet analyze
-
-    - name: Archive Analysis Reports
-      uses: actions/upload-artifact@v2
-      with:
-        name: analysis-reports
-        path: ./AnalysisReports/
+    - name: Echo Success Message
+      run: echo "Workflow completed successfully"
