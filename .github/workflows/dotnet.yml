@@ -2,9 +2,9 @@ name: Simplified .NET Core Workflow
 
 on:
   push:
-    branches: [ "test1" ]
+    branches: [ "johnny" ]
   pull_request:
-    branches: [ "test1" ]
+    branches: [ "johnny" ]
 
 jobs:
   setup-and-check:
