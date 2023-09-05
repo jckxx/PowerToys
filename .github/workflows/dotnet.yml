@@ -1,16 +1,17 @@
-name: Johnny .NET Core Workflow
+name: .NET Code Coverage
 
 on:
   push:
-    branches: [ "johnny" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "johnny" ]
+    branches: [ main ]
 
 jobs:
-  setup-and-check:
+  build:
     runs-on: windows-latest
+
     steps:
-    - name: Checkout repository
+    - name: Checkout Repository
       uses: actions/checkout@v2
 
     - name: Setup .NET Core
@@ -18,8 +19,17 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
-    - name: List files in the repository
-      run: Get-ChildItem -Recurse
+    - name: Restore Dependencies
+      run: dotnet restore
 
-    - name: Display environment information
-      run: echo "Running on ${{ runner.os }} with .NET version ${{ steps.setup-dotnet.outputs.dotnet-version }}"
+    - name: Build Project
+      run: dotnet build --no-restore
+
+    - name: Test Project and Generate Coverage Report
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+
+    - name: Publish Coverage Report
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: './**/coverage.cobertura.xml'
