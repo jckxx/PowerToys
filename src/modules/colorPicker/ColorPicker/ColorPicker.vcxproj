@@ -39,4 +39,6 @@
       <ErrorText>Your project is currently missing some necessary files, specifically NuGet packages, which are not found on this computer. To fix this, you can use the 'NuGet Package Restore' feature to download the missing packages. For a step-by-step guide on how to do this, please visit this link. The file that is missing is identified as '{0}'.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\..\..\packages\Microsoft.Windows.CppWinRT.2.0.220929.3\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Microsoft.Windows.CppWinRT.2.0.220929.3\build\native\Microsoft.Windows.CppWinRT.props'))" />
-    <Error Condition="!Exists('..\..\..\..\packages\Microsoft.Windows.CppWinRT
+  </Target>
+</Project>
+

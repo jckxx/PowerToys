@@ -1,0 +1,36 @@
+name: .NET Code Coverage
+
+on:
+  push:
+    branches: 
+      - johnny
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Test with Code Coverage
+      run: dotnet test --no-build --collect:"XPlat Code Coverage"
+
+    - name: Publish Code Coverage Results
+      uses: dorny/paths-filter@v2
+      with:
+        list-files: 'json'
+        filters: |
+          coverage:
+            - '**/TestResults/**/coverage.cobertura.xml'
