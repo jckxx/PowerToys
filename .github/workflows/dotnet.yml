@@ -1,17 +1,16 @@
-name: .NET Code Coverage Workflow
+name: .NET Code Coverage
 
 on:
   push:
-    branches: ["johnny"]
-  pull_request:
-    branches: ["johnny"]
+    branches: 
+      - johnny
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout Repository
+    - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Setup .NET Core
@@ -19,17 +18,19 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
-    - name: Restore Dependencies
+    - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build Project
+    - name: Build
       run: dotnet build --no-restore
 
-    - name: Test Project and Generate Coverage Report
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+    - name: Test with Code Coverage
+      run: dotnet test --no-build --collect:"XPlat Code Coverage"
 
-    - name: Publish Coverage Report
-      uses: codecov/codecov-action@v2
+    - name: Publish Code Coverage Results
+      uses: dorny/paths-filter@v2
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: './**/coverage.cobertura.xml'
+        list-files: 'json'
+        filters: |
+          coverage:
+            - '**/TestResults/**/coverage.cobertura.xml'
