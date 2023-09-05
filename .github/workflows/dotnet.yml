@@ -1,16 +1,16 @@
-name: Simple C# Workflow
+name: Johnny .NET Core Workflow
 
 on:
   push:
-    branches: [ johnny ]
+    branches: [ "johnny" ]
   pull_request:
-    branches: [ johnny ]
+    branches: [ "johnny" ]
 
 jobs:
-  setup-environment:
+  setup-and-restore:
     runs-on: windows-latest
     steps:
-    - name: Checkout Code
+    - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Setup .NET Core
@@ -18,5 +18,8 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
-    - name: Echo Success Message
-      run: echo "Workflow completed successfully"
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Display .NET Version
+      run: dotnet --version
