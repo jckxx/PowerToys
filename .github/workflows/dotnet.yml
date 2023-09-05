@@ -1,13 +1,13 @@
-name: Johnny .NET Core Workflow
+name: Simplified .NET Core Workflow
 
 on:
   push:
-    branches: [ "johnny" ]
+    branches: [ "test1" ]
   pull_request:
-    branches: [ "johnny" ]
+    branches: [ "test1" ]
 
 jobs:
-  setup-and-restore:
+  setup-and-check:
     runs-on: windows-latest
     steps:
     - name: Checkout repository
@@ -18,8 +18,8 @@ jobs:
       with:
         dotnet-version: '6.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: List files in the repository
+      run: ls -la
 
-    - name: Display .NET Version
-      run: dotnet --version
+    - name: Display environment information
+      run: echo "Running on ${{ runner.os }} with .NET version ${{ steps.setup-dotnet.outputs.dotnet-version }}"
