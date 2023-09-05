@@ -9,7 +9,9 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL"
+# This workflow is for assignment purpose only
+
+name: "CodeQL | Code Analysis"
 
 on:
   push:
