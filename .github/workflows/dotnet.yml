@@ -1,14 +1,20 @@
-name: Code Coverage Analysis
+name: Code Quality and Security Analysis
 
 on: [push]
 
 jobs:
-  code-coverage-analysis:
-    name: Code Coverage Analysis
+  codeql-analysis:
+    name: CodeQL Analysis
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@master
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: 'csharp, javascript, python' # Specify the languages used in your project
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
