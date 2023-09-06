@@ -17,7 +17,7 @@ jobs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
+        dotnet-version: 6.0.x
 
     - name: Build for x64
       uses: ./.pipelines/templates/build-powertoys-ci.yml
