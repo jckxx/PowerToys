@@ -1,43 +1,31 @@
-name: .NET Core Build and Test
+name: CI
 
 on:
-    push:
-      branches: [ "kkTest" ]
-    pull_request:
-      branches: [ "kkTest" ]
-  
+  push:
+    branches:
+      - main
+      - stable
 
 jobs:
-  build-and-test:
+  build:
+    name: Build PowerToys
     runs-on: ubuntu-latest
-
-    
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v2
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.x' # Adjust to the desired .NET Core version
+        dotnet-version: 3.1.x
 
-    - name: Restore NuGet packages and build
-      run: dotnet build --configuration Release
-
-    - name: Run tests
-      run: dotnet test --configuration Release --no-build
-
-    - name: Publish test results
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v2
+    - name: Build for x64
+      uses: ./templates/build-powertoys-ci.yml
       with:
-        name: test-results
-        path: ${{ steps.find-test-results.outputs.test-results }}
+        platform: x64
 
-    - name: Publish build artifacts
-      if: always()
-      uses: actions/upload-artifact@v2
+    - name: Build for ARM64
+      uses: ./templates/build-powertoys-ci.yml
       with:
-        name: build-artifacts
-        path: bin/Release
+        platform: arm64
