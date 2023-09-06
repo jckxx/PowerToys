@@ -1,20 +1,14 @@
-name: Dependency Check
+name: Check .NET Version
 
 on:
   push:
     branches:
-      - kkTest  
+      - kkTest  # Replace with your main branch name
 
 jobs:
-  dependabot:
-    name: Dependabot
+  check-dotnet-version:
+    name: Check .NET Version
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        dotnet-version:
-          - '3.1'  
-          - '6.0'  
 
     steps:
       - name: Checkout code
@@ -23,10 +17,17 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: 5.0  # Specify the .NET version you want to check for
 
-      - name: Run Dependabot
-        uses: dependabot/dependabot-core@v0.137.0  # Replace with the latest version
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          directory: ./  # Specify the directory where your .NET project is located
+      - name: Run .NET --version
+        run: dotnet --version
+
+      - name: Check .NET version
+        run: |
+          if [[ $(dotnet --version) == "5.0"* ]]; then
+            echo "The .NET version is 5.0."
+          else
+            echo "The .NET version is not 5.0."
+            exit 1
+          fi
+        working-directory: path/to/your/folder 
