@@ -1,0 +1,32 @@
+name: Dependency Check
+
+on:
+  push:
+    branches:
+      - kkTest  
+
+jobs:
+  dependabot:
+    name: Dependabot
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        dotnet-version:
+          - '3.1'  
+          - '6.0'  
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Run Dependabot
+        uses: dependabot/dependabot-core@v0.137.0  # Replace with the latest version
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          directory: ./  # Specify the directory where your .NET project is located
