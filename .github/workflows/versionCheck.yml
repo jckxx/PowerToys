@@ -24,10 +24,10 @@ jobs:
 
       - name: Check .NET version
         run: |
-          if [[ $(dotnet --version) == "5.0"* ]]; then
-            echo "The .NET version is 5.0."
+          if [[ $(dotnet --version) >= "5.0"* ]]; then
+            echo "The .NET version is above 5.0."
           else
-            echo "The .NET version is not 5.0."
+            echo "The .NET version is not above 5.0."
             exit 1
           fi
         working-directory: ./installer 
