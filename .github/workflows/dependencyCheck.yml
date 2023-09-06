@@ -17,7 +17,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.0  # Specify the .NET version you want to check for
+          dotnet-version: 5.*.*  # Specify the .NET version you want to check for
 
       - name: Run .NET --version
         run: dotnet --version
