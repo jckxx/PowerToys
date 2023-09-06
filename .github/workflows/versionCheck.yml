@@ -33,3 +33,4 @@ jobs:
             echo "The .NET version is less than 5.0."
             exit 1
           fi
+        working-directory: /installer
