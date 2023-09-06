@@ -1,0 +1,41 @@
+name: .NET Core Build and Test
+
+on:
+    push:
+      branches: [ "kkTest" ]
+    pull_request:
+      branches: [ "kkTest" ]
+  
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '5.x' # Adjust to the desired .NET Core version
+
+    - name: Restore NuGet packages and build
+      run: dotnet build --configuration Release
+
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build
+
+    - name: Publish test results
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-results
+        path: **/TestResults
+
+    - name: Publish build artifacts
+      if: ${{ always() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts
+        path: bin/Release
