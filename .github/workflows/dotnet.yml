@@ -1,35 +1,33 @@
-name: Code Coverage
+name: Codacy Analysis CLI with Code Coverage
 
-on:
-  push:
-    branches: ["johnny"]
-  pull_request:
-    branches: ["johnny"]
+on: [push]
 
 jobs:
-  build:
-
+  codacy-analysis-cli:
+    name: Codacy Analysis CLI with Code Coverage
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '5.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
 
-    - name: Build
-      run: dotnet build --no-restore
+      - name: Test with Code Coverage
+        run: dotnet test --collect:"XPlat Code Coverage"
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - name: Generate Reports
+        run: |
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+          reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage/reports" -reporttypes:Html
 
-    - name: Publish Code Coverage
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./src/codeAnalysis # Adjust this path to point to your lcov.info file
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@master
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage/reports
