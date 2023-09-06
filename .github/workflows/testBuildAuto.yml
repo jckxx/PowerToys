@@ -36,7 +36,7 @@ jobs:
         path: **/TestResults
 
     - name: Publish build artifacts
-      if: ${{ always() }}
+      if: always()
       uses: actions/upload-artifact@v2
       with:
         name: build-artifacts
