@@ -30,4 +30,4 @@ jobs:
             echo "The .NET version is not 5.0."
             exit 1
           fi
-        working-directory: path/to/your/folder 
+        working-directory: /installer 
