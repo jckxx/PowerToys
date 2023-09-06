@@ -1,20 +1,29 @@
-name: Code Quality and Security Analysis
+name: .NET Code Quality and Coverage
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  codeql-analysis:
-    name: CodeQL Analysis
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
-        with:
-          languages: 'csharp, javascript, python' # Specify the languages used in your project
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.x' # Adjust the .NET version as per your project's requirement
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
+    - name: Test with code coverage
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+
+    - name: Publish Code Coverage
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./path/to/your/cobertura/coverage.cobertura.xml # Adjust this path to point to your cobertura coverage file
+        fail_ci_if_error: true
