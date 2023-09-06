@@ -6,25 +6,21 @@ on:
       - kkTest
 
 jobs:
-  build:
-    name: Build PowerToys
-    runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest  # You can choose the runner OS
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v2  # This step checks out your repository's code
 
-    - name: Set up .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
+    - name: Set up CMake
+      uses: lukka/run-cmake@v2  # You can replace this with your specific CMake setup action
 
-    - name: Build for x64
-      uses: ./templates/buildpowertoysci.yml
-      with:
-        platform: x64
-
-    - name: Build for ARM64
-      uses: ./templates/buildpowertoysci.yml
-      with:
-        platform: arm64
+    - name: Build and Run Tests
+      run: |
+        cd src/common/UnitTests-CommonLib
+        mkdir build
+        cd build
+        cmake ..
+        make
+        ./Settings.Tests.cpp  
