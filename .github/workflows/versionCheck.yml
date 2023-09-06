@@ -3,7 +3,7 @@ name: Check .NET Version
 on:
   push:
     branches:
-      - kkTest  # Replace with your main branch name
+      - kkTest  
 
 jobs:
   check-dotnet-version:
@@ -17,17 +17,19 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.*.*  # Specify the .NET version you want to check for
+          dotnet-version: 5.0  # Specify the minimum .NET version you want to check
 
       - name: Run .NET --version
         run: dotnet --version
 
       - name: Check .NET version
         run: |
-          if [[ $(dotnet --version) >= "5.0"* ]]; then
-            echo "The .NET version is above 5.0."
+          installed_version=$(dotnet --version)
+          required_version="5.0"
+          
+          if [[ "$(printf '%s\n' "$required_version" "$installed_version" | sort -V | head -n 1)" == "$required_version" ]]; then
+            echo "The .NET version is greater than or equal to 5.0."
           else
-            echo "The .NET version is not above 5.0."
+            echo "The .NET version is less than 5.0."
             exit 1
           fi
-        working-directory: ./installer 
