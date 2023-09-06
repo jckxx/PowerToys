@@ -3,7 +3,6 @@ parameters:
   platform: ''
   additionalBuildArguments: '-m'
 
-  
 jobs:
 - job: Build${{ parameters.platform }}${{ parameters.configuration }}
   displayName: Build ${{ parameters.platform }} ${{ parameters.configuration }}
