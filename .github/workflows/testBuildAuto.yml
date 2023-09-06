@@ -20,11 +20,11 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Build for x64
-      uses: ./templates/build-powertoys-ci.yml
+      uses: ./.pipelines/templates/build-powertoys-ci.yml
       with:
         platform: x64
 
     - name: Build for ARM64
-      uses: ./templates/build-powertoys-ci.yml
+      uses: ./.pipelines/templates/build-powertoys-ci.yml
       with:
         platform: arm64
