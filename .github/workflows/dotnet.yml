@@ -10,10 +10,5 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Codacy Coverage Reporter
-        uses: codacy/codacy-coverage-reporter-action@v1
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
