@@ -1,22 +1,23 @@
-name: .NET Code Coverage
+name: Code Coverage
 
 on:
   push:
-    branches: 
-      - johnny
+    branches: ["johnny"]
+  pull_request:
+    branches: ["johnny"]
 
 jobs:
   build:
-    runs-on: windows-latest
+
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: '5.x'
 
     - name: Restore dependencies
       run: dotnet restore
@@ -24,13 +25,11 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
-    - name: Test with Code Coverage
-      run: dotnet test --no-build --collect:"XPlat Code Coverage"
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
 
-    - name: Publish Code Coverage Results
-      uses: dorny/paths-filter@v2
+    - name: Publish Code Coverage
+      uses: coverallsapp/github-action@master
       with:
-        list-files: 'json'
-        filters: |
-          coverage:
-            - '**/TestResults/**/coverage.cobertura.xml'
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./src/codeAnalysis # Adjust this path to point to your lcov.info file
