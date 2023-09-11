@@ -1,36 +1,29 @@
-name: .NET Code Coverage
+name: .NET Code Quality and Coverage
 
 on:
   push:
-    branches: 
-      - johnny
+    branches: ["johnny"]
+  pull_request:
+    branches: ["johnny"]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.x'
+        dotnet-version: '5.x' # Adjust the .NET version as per your project's requirement
 
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Test with code coverage
+      run: dotnet test ./path/to/your/csharp/project.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
 
-    - name: Build
-      run: dotnet build --no-restore
-
-    - name: Test with Code Coverage
-      run: dotnet test --no-build --collect:"XPlat Code Coverage"
-
-    - name: Publish Code Coverage Results
-      uses: dorny/paths-filter@v2
+    - name: Publish Code Coverage
+      uses: codecov/codecov-action@v2
       with:
-        list-files: 'json'
-        filters: |
-          coverage:
-            - '**/TestResults/**/coverage.cobertura.xml'
+        files: ./path/to/your/cobertura/coverage.cobertura.xml # Adjust this path to point to your cobertura coverage file
+        fail_ci_if_error: true
